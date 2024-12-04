@@ -206,6 +206,24 @@ const TodoList = ({ selectedFilter }) => {
     const handleAddSubTask = (newSubTask) => {
         setSubTasks([...subTasks, newSubTask]);
     };
+    const isOverdue = (task) => {
+        if (!task || !task.endDate) return false; // Ensure task and endDate are defined
+
+        const currentDate = new Date();
+        const endDate = new Date(task.endDate);
+
+        // Set the time of current date to 00:00:00 to compare only the date part
+        currentDate.setHours(0, 0, 0, 0);
+
+        // If the endDate is invalid, return false
+        if (isNaN(endDate.getTime())) {
+            console.error("Invalid end date:", task.endDate);
+            return false;
+        }
+
+        // If the end date is today or in the past and the task is not completed
+        return (endDate <= currentDate && task.status !== "Completed");
+    };
     return (
         <Box className="p-5">
             <Box className="d-flex justify-content-between align-items-center mb-4">
@@ -345,7 +363,10 @@ const TodoList = ({ selectedFilter }) => {
                                     <Card.Text className="mb-0 fontw700 font14" style={{ color: getPriorityColor(task.priority) }}>{task.priority} </Card.Text>
                                 </Box>
 
-                                <Card.Text className='mt-1 font14'> {task.startDate} - {task.endDate}</Card.Text>
+                                <Card.Text className='mt-1 font14'>
+                                    {task.startDate} - {task.endDate}
+                                    {isOverdue(task) && <span className='fontw700 text-danger'> <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#EA3323"><path d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120Zm-80-240v-480h160v480H400Z" /></svg></span>}
+                                </Card.Text>
                                 <Box className='d-flex justify-content-between' gap={2}>
                                     <Dropdown>
                                         <Dropdown.Toggle variant="light" id={`dropdown-task-${task.id}`} className="task-btn font14">

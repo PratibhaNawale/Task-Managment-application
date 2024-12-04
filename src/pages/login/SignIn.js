@@ -75,17 +75,22 @@ const SignIn = () => {
             <InputLabel >Password <span>*</span></InputLabel>
             <TextField
               placeholder="Enter Password"
-              type={showPassword ? 'text' : 'password'}  
+              type={showPassword ? 'text' : 'password'}
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(e);
+                }
+              }}
               sx={{ marginBottom: 2 }}
               required
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleClickShowPassword} edge="end">
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />} 
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </IconButton>
                   </InputAdornment>
                 ),

@@ -8,9 +8,9 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((prev) => !prev);  
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
   const VisibilityIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323">
@@ -49,7 +49,6 @@ const SignUp = () => {
       if (response.ok) {
         const result = await response.json();
 
-        // Show a success toast
         toast.success('Sign up successfully!', {
           style: { backgroundColor: 'green', color: 'white' },
         });
@@ -106,22 +105,28 @@ const SignUp = () => {
             <InputLabel>Password <span>*</span></InputLabel>
             <TextField
               placeholder="Enter Password"
-              type={showPassword ? 'text' : 'password'}  // Toggle the type based on showPassword state
+              type={showPassword ? 'text' : 'password'}
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(e);
+                }
+              }}
               sx={{ marginBottom: 2 }}
               required
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleClickShowPassword} edge="end">
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />} {/* Change icon based on visibility */}
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
             />
+
             <Button type="submit" fullWidth className="task-btn">
               Sign Up
             </Button>

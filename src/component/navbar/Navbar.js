@@ -21,13 +21,13 @@ const Navbar = ({ selectedFilter, onFilterChange }) => {
     };
 
     const handleLogoutClick = () => {
-        setDialogOpen(true); // Show the confirmation dialog when logout is clicked
+        setDialogOpen(true);
         handleClose();
     };
 
     const handleLogout = () => {
         navigate('/signin');
-        setDialogOpen(false); // Close the dialog
+        setDialogOpen(false);
     };
 
     const handleFilterChange = (filter) => {
